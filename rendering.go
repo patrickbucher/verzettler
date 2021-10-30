@@ -1,7 +1,6 @@
-package rendering
+package verzettler
 
 import (
-	"github.com/patrickbucher/verzettler/paging"
 	"github.com/signintech/gopdf"
 )
 
@@ -16,7 +15,7 @@ var (
 )
 
 // DistributeWords renders the given page's words on a PDF.
-func DistributeWords(pdf *gopdf.GoPdf, page paging.Page) {
+func DistributeWords(pdf *gopdf.GoPdf, page Page) {
 	yOffset := 0.0
 	xOffset := 0.0
 	for i, item := range page.Items {
@@ -38,7 +37,7 @@ func DistributeWords(pdf *gopdf.GoPdf, page paging.Page) {
 }
 
 // DrawGrid renders a grid on the PDF according to the page's rows and cols.
-func DrawGrid(pdf *gopdf.GoPdf, page paging.Page) {
+func DrawGrid(pdf *gopdf.GoPdf, page Page) {
 	pdf.SetLineWidth(1)
 	pdf.SetLineType("dashed")
 	colWidth := a4width / float64(page.Cols)

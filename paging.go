@@ -1,4 +1,4 @@
-package paging
+package verzettler
 
 // Page represents a set of items and a grid of Rows and Cols.
 type Page struct {
