@@ -1,15 +1,32 @@
 # Howto
 
+Build the program:
+
+    $ go build cmd/verzettler.go
+
 Copy any TTF font into the working directory and call the file `font.ttf`. Then
 run the program:
 
-    $ go run cmd/verzettler.go
+    $ ./verzettler pairs.json
 
-The output `example.pdf` will be written to the current working directory.
+The output `flashcards.pdf` will be written to the current working directory.
 
-# TODO
+Get help on the command line options:
 
-- accept command line arguments
-    - `rows` and `cols`
-    - `font` (TTF file)
-    - argument for data file (JSON) containing the pairs
+    $ ./verzettler -h
+
+Use a special font:
+
+    $ ./verzettler -font /usr/share/fonts/TTF/DejaVuSans.ttf pairs.json
+
+Use a bigger font size:
+
+    $ ./verzettler -size 18 pairs.json
+
+Use a different row/column layout in the output:
+
+    $ ./verzettler -rows 5 -cols 3 pairs.json
+
+Use a different output path:
+
+    $ ./verzettler -out vocabulary.pdf pairs.json
