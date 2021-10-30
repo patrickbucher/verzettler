@@ -11,6 +11,8 @@ const (
 	rows = 5
 )
 
+// BuildFlashCardsPDF takes a map of word pairs, a path to store the resulting
+// PDF, the path to a font file (TTF), and renders a PDF of flash cards.
 func BuildFlashCardsPDF(pairs map[string]string, pdfOutputPath, fontPath string) {
 	pdf := gopdf.GoPdf{}
 	pdf.Start(gopdf.Config{PageSize: *gopdf.PageSizeA4})

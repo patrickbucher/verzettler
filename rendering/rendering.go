@@ -15,6 +15,7 @@ var (
 	a4height = gopdf.PageSizeA4.H
 )
 
+// DistributeWords renders the given page's words on a PDF.
 func DistributeWords(pdf *gopdf.GoPdf, page paging.Page) {
 	yOffset := 0.0
 	xOffset := 0.0
@@ -36,6 +37,7 @@ func DistributeWords(pdf *gopdf.GoPdf, page paging.Page) {
 	}
 }
 
+// DrawGrid renders a grid on the PDF according to the page's rows and cols.
 func DrawGrid(pdf *gopdf.GoPdf, page paging.Page) {
 	pdf.SetLineWidth(1)
 	pdf.SetLineType("dashed")

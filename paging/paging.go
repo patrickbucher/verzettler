@@ -1,23 +1,28 @@
 package paging
 
+// Page represents a set of items and a grid of Rows and Cols.
 type Page struct {
 	Items []string
 	Rows  int
 	Cols  int
 }
 
+// NewPage creats a Page with an empty Items slice of size Rows*Cols.
 func NewPage(rows, cols int) Page {
 	n := rows * cols
 	items := make([]string, n)
 	return Page{items, rows, cols}
 }
 
+// Sheet represents a physical sheet of paper with a Front and a Back page.
 type Sheet struct {
 	Front Page
 	Back  Page
 }
 
-// Distribute distributes...
+// Distribute distributes the string pairs over a sheet. The order on the front
+// and back page are reversed within a row, so that a pair is correctly placed
+// on a duplex printout on the resulting sheets.
 func Distribute(pairs map[string]string, rows, cols int) []Sheet {
 	perPage := rows * cols
 	sheets := make([]Sheet, 0)
