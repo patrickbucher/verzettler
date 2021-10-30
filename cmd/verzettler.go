@@ -1,12 +1,15 @@
 package main
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/signintech/gopdf"
 )
 
 const (
-	cols    = 2
-	rows    = 4
+	cols    = 3
+	rows    = 5
 	yMargin = 25.0
 	xMargin = 20.0
 )
@@ -42,10 +45,12 @@ func main() {
 	for _, sheet := range sheets {
 		pdf.AddPage()
 		drawGrid(&pdf)
+		fmt.Println(strings.Join(sheet.Front, ","))
 		distributeWords(&pdf, sheet.Front)
 
 		pdf.AddPage()
 		drawGrid(&pdf)
+		fmt.Println(strings.Join(sheet.Back, ","))
 		distributeWords(&pdf, sheet.Back)
 	}
 	pdf.WritePdf("example.pdf")
@@ -56,16 +61,14 @@ func distributeWords(pdf *gopdf.GoPdf, page Page) {
 	xOffset := 0.0
 	for i, item := range page {
 		if i%cols == 0 {
+			pdf.SetX(xMargin)
+			xOffset = 0.0
 			if i > 0 {
 				yOffset += a4height / rows
 				pdf.SetY(yOffset + yMargin)
 			} else {
 				pdf.SetY(yMargin)
 			}
-		}
-		if (i+1)%cols == 0 {
-			pdf.SetX(xMargin)
-			xOffset = 0.0
 		} else {
 			xOffset += a4width / cols
 			pdf.SetX(xOffset + xMargin)
@@ -157,8 +160,8 @@ func buildBackPageIndexSequence(rows, cols int) []int {
 	indexSequence := make([]int, cells)
 	for r := 0; r < rows; r++ {
 		for c := 0; c < cols; c++ {
-			i := (r*cols - 1) + cols - c
-			indexSequence[(r*cols)+c] = i
+			i := cols - 1 - c + r*cols
+			indexSequence[r*cols+c] = i
 		}
 	}
 	return indexSequence
