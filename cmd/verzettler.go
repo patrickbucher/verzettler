@@ -1,6 +1,12 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"os"
+
 	"github.com/patrickbucher/verzettler/paging"
 	"github.com/patrickbucher/verzettler/rendering"
 	"github.com/signintech/gopdf"
@@ -11,18 +17,24 @@ const (
 	cols       = 3
 	outputPath = "example.pdf"
 	fontPath   = "font.ttf"
+	inputPath  = "pairs.json"
 )
 
 func main() {
-	words := map[string]string{
-		"Sehenswürdigkeit": "достопримечательность",
-		"Haus":             "дом",
-		"Katze":            "кот",
-		"Hund":             "собака",
-		"Mädchen":          "девочка",
-		"Bär":              "медведь",
-		"Russland":         "Россия",
-		"Junge":            "мальчик",
+	inputFile, err := os.Open(inputPath)
+	if err != nil {
+		panic(fmt.Sprintf("open file '%s': %v", inputPath, err))
+	}
+	defer inputFile.Close()
+
+	buf := bytes.NewBufferString("")
+	if _, err = io.Copy(buf, inputFile); err != nil {
+		panic(fmt.Sprintf("read from file '%s': %v", inputPath, err))
+	}
+
+	words := make(map[string]string)
+	if err = json.Unmarshal(buf.Bytes(), &words); err != nil {
+		panic(fmt.Sprintf("unmarshal JSON from file '%s': %v", inputPath, err))
 	}
 	BuildFlashCardsPDF(words, outputPath, fontPath)
 }
