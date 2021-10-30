@@ -1,4 +1,4 @@
-module verzettler
+module github.com/patrickbucher/verzettler
 
 go 1.17
 
