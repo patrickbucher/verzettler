@@ -1,6 +1,16 @@
 package paging
 
-type Page []string
+type Page struct {
+	Items []string
+	Rows  int
+	Cols  int
+}
+
+func NewPage(rows, cols int) Page {
+	n := rows * cols
+	items := make([]string, n)
+	return Page{items, rows, cols}
+}
 
 type Sheet struct {
 	Front Page
@@ -14,16 +24,16 @@ func Distribute(pairs map[string]string, rows, cols int) []Sheet {
 	frontSeq := buildFrontPageIndexSequence(rows, cols)
 	backSeq := buildBackPageIndexSequence(rows, cols)
 	i := 0
-	front := make(Page, perPage)
-	back := make(Page, perPage)
+	front := NewPage(rows, cols)
+	back := NewPage(rows, cols)
 	for key, value := range pairs {
-		front[frontSeq[i]] = key
-		back[backSeq[i]] = value
+		front.Items[frontSeq[i]] = key
+		back.Items[backSeq[i]] = value
 		i++
 		if i == perPage {
 			sheets = append(sheets, Sheet{front, back})
-			front = make(Page, perPage)
-			back = make(Page, perPage)
+			front = NewPage(rows, cols)
+			back = NewPage(rows, cols)
 			i = 0
 		}
 	}

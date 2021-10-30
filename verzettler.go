@@ -26,12 +26,12 @@ func BuildFlashCardsPDF(pairs map[string]string, pdfOutputPath, fontPath string)
 	sheets := paging.Distribute(pairs, rows, cols)
 	for _, sheet := range sheets {
 		pdf.AddPage()
-		rendering.DrawGrid(&pdf, rows, cols)
-		rendering.DistributeWords(&pdf, sheet.Front, rows, cols)
+		rendering.DrawGrid(&pdf, sheet.Front)
+		rendering.DistributeWords(&pdf, sheet.Front)
 
 		pdf.AddPage()
-		rendering.DrawGrid(&pdf, rows, cols)
-		rendering.DistributeWords(&pdf, sheet.Back, rows, cols)
+		rendering.DrawGrid(&pdf, sheet.Back)
+		rendering.DistributeWords(&pdf, sheet.Back)
 	}
 	pdf.WritePdf("example.pdf")
 }
