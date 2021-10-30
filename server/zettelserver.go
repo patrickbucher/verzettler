@@ -25,6 +25,9 @@ func main() {
 	}
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "server/index.html")
+	})
+	http.HandleFunc("/zettel", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			w.WriteHeader(http.StatusMethodNotAllowed)
 			return
@@ -89,7 +92,8 @@ func main() {
 		}
 		defer pdfFile.Close()
 		w.Header().Set("Content-Type", "application/pdf")
-		io.Copy(w, pdfFile)
+		http.ServeFile(w, r, pdfFile.Name())
+		log.Println("done?")
 	})
 	log.Fatal(http.ListenAndServe("0.0.0.0:3771", nil))
 }

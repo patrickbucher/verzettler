@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Zettelserver</title>
+        <style>
+        label { display: inline-block; width: 10em; }
+        </style>
+    </head>
+    <body>
+        <h1>Zettelserver</h1>
+        <p>Submit a JSON file of the following form to get Flashcards:</p>
+        <pre>
+{
+  "Kaninchen": "кролик",
+  "Sehenswürdigkeit": "достопримечательность",
+  "Haus": "дом",
+  "Katze": "кот",
+  "Hund": "собака",
+  "Mädchen": "девочка",
+  "Bär": "медведь",
+  "Russland": "Россия",
+  "Junge": "мальчик"
+}
+        </pre>
+        <form method="POST" enctype="multipart/form-data" action="/zettel">
+            <p>
+                <label for="cols">Cols</label>
+                <input name="cols" type="number" min="1" max="8" value="2">
+            </p>
+            <p>
+                <label for="rows">Rows</label>
+                <input name="rows" type="number" min="1" max="16" value="4">
+            </p>
+            <p>
+                <label for="fontsize">Font Size (pt)</label>
+                <input name="fontsize" type="number" min="6" max="36" value="12">
+            </p>
+            <p>
+                <label for="pairs">Pair File (json)</label>
+                <input name="pairs" type="file">
+            </p>
+            <p>
+                <input type="submit" value="Generate Flash Cards">
+            </p>
+        </form>
+    </body>
+</html>
