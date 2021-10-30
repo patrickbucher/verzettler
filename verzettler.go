@@ -11,28 +11,39 @@ import (
 	"github.com/signintech/gopdf"
 )
 
+// FlashCardParams contains all the meta parameters needed to generate a flash
+// cards PDF from a JSON input file.
+type FlashCardParams struct {
+	Rows       int
+	Cols       int
+	FontSize   int
+	FontPath   string
+	InputPath  string
+	OutputPath string
+}
+
 // BuildFlashCardsPDF takes a map of word pairs, a path to store the resulting
 // PDF, the path to a font file (TTF), and renders a PDF of flash cards.
-func BuildFlashCardsPDF(params FlashCardParams) {
+func BuildFlashCardsPDF(params FlashCardParams) error {
 	pdf := gopdf.GoPdf{}
 	pdf.Start(gopdf.Config{PageSize: *gopdf.PageSizeA4})
 	err := pdf.AddTTFFont("font", params.FontPath)
 	if err != nil {
-		panic(err)
+		return fmt.Errorf("add TTF font from file '%s': %v", params.FontPath, err)
 	}
 	err = pdf.SetFont("font", "", params.FontSize)
 	if err != nil {
-		panic(err)
+		return fmt.Errorf("set font size to %dpt: %v", params.FontSize, err)
 	}
 
 	inputFile, err := os.Open(params.InputPath)
 	if err != nil {
-		Fail("open file '%s': %v", params.InputPath, err)
+		return fmt.Errorf("open file '%s': %v", params.InputPath, err)
 	}
 	defer inputFile.Close()
 	buf := bytes.NewBufferString("")
 	if _, err = io.Copy(buf, inputFile); err != nil {
-		Fail("read from file '%s': %v", params.InputPath, err)
+		return fmt.Errorf("read from file '%s': %v", params.InputPath, err)
 	}
 	words := make(map[string]string)
 	if err = json.Unmarshal(buf.Bytes(), &words); err != nil {
@@ -51,6 +62,7 @@ func BuildFlashCardsPDF(params FlashCardParams) {
 	}
 	err = pdf.WritePdf(params.OutputPath)
 	if err != nil {
-		Fail("write PDF to %s: %v", params.OutputPath, err)
+		return fmt.Errorf("write PDF to %s: %v", params.OutputPath, err)
 	}
+	return nil
 }

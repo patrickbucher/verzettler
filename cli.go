@@ -7,15 +7,6 @@ import (
 	"strings"
 )
 
-type FlashCardParams struct {
-	Rows       int
-	Cols       int
-	FontSize   int
-	FontPath   string
-	InputPath  string
-	OutputPath string
-}
-
 func ParseCommandLineArguments(cmdName string) FlashCardParams {
 	const (
 		rowsUsage       = "number or rows"
