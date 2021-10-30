@@ -1,4 +1,9 @@
-# Howto
+# Verzettler
+
+Verzettler turns key-value pairs provided in the JSON format into flash cards
+ready for duplex printing.
+
+## Howto
 
 Build the program:
 
