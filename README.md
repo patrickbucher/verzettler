@@ -3,7 +3,20 @@
 Verzettler turns key-value pairs provided in the JSON format into flash cards
 ready for duplex printing.
 
-## Howto
+## Zettelserver
+
+Run it:
+
+    $ go run server/zettelserver.go
+
+Then browse [localhost:3771/index.html](http://localhost:3771/index.html).
+
+Alternatively, use `curl` or the like:
+
+    $ curl -X POST -F pairs=@pairs.json -F cols=3 -F rows=5 -F size=14 \
+      "http://localhost:3771/zettel" --output flashcards.pdf
+
+## Command Line Tool
 
 Build the program:
 

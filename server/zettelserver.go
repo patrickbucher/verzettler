@@ -93,7 +93,6 @@ func main() {
 		defer pdfFile.Close()
 		w.Header().Set("Content-Type", "application/pdf")
 		http.ServeFile(w, r, pdfFile.Name())
-		log.Println("done?")
 	})
 	log.Fatal(http.ListenAndServe("0.0.0.0:3771", nil))
 }
