@@ -48,3 +48,9 @@ Use a different row/column layout in the output:
 Use a different output path:
 
     $ ./verzettler -out vocabulary.pdf pairs.json
+
+## TODO
+
+- [ ] Automatische Zeilenumbrüche
+    - Anzahl verfügbare `em` pro Zeile berechnen
+    - Reflow anhand dieser Zeichenanzahl
